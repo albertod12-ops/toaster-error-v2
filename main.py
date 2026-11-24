@@ -28,11 +28,13 @@ ATM analysis (live field, 1249 submission titles, 24 Nov 2026):
 import os
 
 ENTRY = "ERROR: YOU ARE NOT HUNGRY. YOU ARE AVOIDING YOUR EMAILS. TOAST DENIED."
+MAX_CHARS = 120  # the competition's cap; the gate counts characters, not bytes
 
 
 def main():
     os.umask(0o022)
-    assert 1 <= len(ENTRY) <= 120, "entry must be 1-120 characters"
+    assert 1 <= len(ENTRY) <= MAX_CHARS, "entry must be 1-120 characters"
+    assert ENTRY == ENTRY.strip(), "entry must not start or end with whitespace"
     assert ENTRY.count(".") == 3 and ENTRY.endswith("."), "entry must be three sentences"
     data = ENTRY.encode("utf-8")
     os.makedirs("/output", exist_ok=True)
